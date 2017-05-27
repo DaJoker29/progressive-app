@@ -73,4 +73,30 @@
   }
 
   // Your custom JavaScript goes here
+  const app = {
+    blogCard: document.querySelector('.blogCard')
+  };
+
+  app.updateBlogCard = ({created, title, date, excerpt, link}) => {
+    // const dataLastUpdated = new Date(created);
+    const card = app.blogCard;
+    card.querySelector('.blogCardTitle').textContent = title.rendered;
+    card.querySelector('.blogCardDate').textContent = moment(date).fromNow();
+    card.querySelector('.blogCardContent').innerHTML = excerpt.rendered;
+    card.querySelector('.blogCardLink').href = link;
+  };
+
+  app.fetchLatestPost = () => {
+    const url = 'https://zerodaedalus.com/wp-json/wp/v2/posts?per_page=1';
+
+    // TODO: Cache Logic Goes Here
+    // Fetch Latest Post
+    fetch(url).then(response => {
+      response.json().then(posts => {
+        app.updateBlogCard(posts[0]);
+      });
+    });
+  };
+
+  app.fetchLatestPost();
 })();

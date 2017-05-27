@@ -45,11 +45,9 @@ body .demo-blog {
   color: inherit;
 }
 .demo-blog .mdl-card__supporting-text {
-  width: 100%;
   padding: 16px;
   min-height: 64px;
-  display: flex;
-  align-items: center;
+  width: 100%;
 }
 .demo-blog .mdl-card__supporting-text strong {
   font-weight: 400;
@@ -98,14 +96,14 @@ body .demo-blog {
   display: flex;
   flex-direction: column;
 }
-.demo-blog.is-small-screen .demo-blog__posts > .mdl-card.coffee-pic {
+.demo-blog.is-small-screen .demo-blog__posts > .mdl-card.code-pic {
   order: 0;
 }
 .demo-blog.is-small-screen .demo-blog__posts > .mdl-card.something-else {
   order: -1;
 }
-.demo-blog .coffee-pic .mdl-card__media {
-  background-image: url('../images/coffee.jpg');
+.demo-blog .code-pic .mdl-card__media {
+  background-image: url('../images/code.png');
 }
 .demo-blog .something-else .mdl-card__media {
   display: flex;
@@ -126,8 +124,8 @@ body .demo-blog {
   border-top-right-radius: 2px;
 }
 .demo-blog .something-else .mdl-card__media img {
-  width: 64px;
-  height: 64px;
+  width: 128px;
+  height: 128px;
   margin-bottom: 10px;
 }
 .demo-blog .something-else .mdl-card__supporting-text {
@@ -304,14 +302,14 @@ body .demo-blog {
   background-color: #263238;
 }
 .demo-blog .minilogo {
-  width: 44px;
-  height: 44px;
+  width: 64px;
+  height: 64px;
   background-image: url('../images/logo.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 50%;
   border-radius: 22px;
-  background-color: #F5F5F5;
+  background-color: transparent;
 }
 
 /* Fixes for IE 10 */
