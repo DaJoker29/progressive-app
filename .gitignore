@@ -2,3 +2,5 @@ node_modules
 dist/
 .tmp
 app.yaml
+app/moment.min.js
+app/material.min.js

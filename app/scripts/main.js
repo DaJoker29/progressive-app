@@ -98,6 +98,17 @@
     const url = 'https://zerodaedalus.com/wp-json/wp/v2/posts?per_page=1';
 
     // Cache Logic Goes Here
+    if ('caches' in window) {
+      caches.match(url).then(response => {
+        if (response) {
+          response.json().then(function updateFromCache(json) {
+            app.saveLatestPost(json[0]);
+            app.updateBlogCard(json[0]);
+          });
+        }
+      });
+    }
+
     // Fetch Latest Post
     fetch(url).then(response => {
       if (response.ok) {
