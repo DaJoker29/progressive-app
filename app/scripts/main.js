@@ -17,6 +17,7 @@
  *
  */
 /* eslint-env browser */
+/* global moment */
 (function() {
   'use strict';
 
@@ -77,9 +78,9 @@
     blogCard: document.querySelector('.blogCard')
   };
 
-  app.updateBlogCard = ({created, title, date, excerpt, link}) => {
-    // const dataLastUpdated = new Date(created);
+  app.updateBlogCard = ({title, date, excerpt, link}) => {
     const card = app.blogCard;
+    card.querySelector('.card-last-updated').textContent = new Date();
     card.querySelector('.blogCardTitle').textContent = title.rendered;
     card.querySelector('.blogCardDate').textContent = moment(date).fromNow();
     card.querySelector('.blogCardContent').innerHTML = excerpt.rendered;
@@ -89,12 +90,17 @@
   app.fetchLatestPost = () => {
     const url = 'https://zerodaedalus.com/wp-json/wp/v2/posts?per_page=1';
 
-    // TODO: Cache Logic Goes Here
+    // Cache Logic Goes Here
     // Fetch Latest Post
     fetch(url).then(response => {
-      response.json().then(posts => {
-        app.updateBlogCard(posts[0]);
-      });
+      if (response.ok) {
+        response.json().then(posts => {
+          app.updateBlogCard(posts[0]);
+        });
+      }
+      throw new Error('Network response was no okay. I repeat. Not okay.');
+    }).catch(error => {
+      console.log('Problem fetching post: ' + error.message);
     });
   };
 

@@ -39,7 +39,7 @@ const reload = browserSync.reload;
 
 // Lint JavaScript
 gulp.task('lint', () =>
-  gulp.src(['app/scripts/**/*.js','!node_modules/**'])
+  gulp.src(['app/scripts/**/*.js', '!node_modules/**'])
     .pipe($.eslint())
     .pipe($.eslint.format())
     .pipe($.if(!browserSync.active, $.eslint.failAfterError()))
@@ -85,15 +85,17 @@ gulp.task('styles', () => {
   // For best performance, don't add Sass partials to `gulp.src`
   return gulp.src([
     'app/styles/**/*.scss',
-    'app/styles/**/*.css'
+    'app/styles/**/*.css',
+    'node_modules/material-design-lite/dist/material.green-blue.min.css',
+    'node_modules/material-design-icons-iconfont/dist/fonts/**/*'
   ])
     .pipe($.newer('.tmp/styles'))
     .pipe($.sourcemaps.init())
-    .pipe($.sass({
+    .pipe($.if('*.scss', $.sass({
       precision: 10
     }).on('error', $.sass.logError))
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
-    .pipe(gulp.dest('.tmp/styles'))
+    .pipe(gulp.dest('.tmp/styles')))
     // Concatenate and minify styles
     .pipe($.if('*.css', $.cssnano()))
     .pipe($.size({title: 'styles'}))
@@ -111,7 +113,6 @@ gulp.task('scripts', () =>
       //       you need to explicitly list your scripts here in the right order
       //       to be correctly concatenated
       './app/scripts/main.js'
-      // Other scripts
     ])
       .pipe($.newer('.tmp/scripts'))
       .pipe($.sourcemaps.init())
@@ -216,7 +217,10 @@ gulp.task('pagespeed', cb =>
 
 // Copy over the scripts that are used in importScripts as part of the generate-service-worker task.
 gulp.task('copy-sw-scripts', () => {
-  return gulp.src(['node_modules/sw-toolbox/sw-toolbox.js', 'app/scripts/sw/runtime-caching.js'])
+  return gulp.src([
+    'node_modules/sw-toolbox/sw-toolbox.js',
+    'app/scripts/sw/runtime-caching.js'
+  ])
     .pipe(gulp.dest('dist/scripts/sw'));
 });
 
@@ -241,8 +245,8 @@ gulp.task('generate-service-worker', ['copy-sw-scripts'], () => {
       // Add/remove glob patterns to match your directory setup.
       `${rootDir}/images/**/*`,
       `${rootDir}/scripts/**/*.js`,
-      `${rootDir}/styles/**/*.css`,
-      `${rootDir}/*.{html,json}`
+      `${rootDir}/styles/**/*.{css,woff2,woff,ttf,eot}`,
+      `${rootDir}/*.{html,json,css,js}`
     ],
     // Translates a static file path to the relative URL that it's served from.
     // This is '/' rather than path.sep because the paths returned from

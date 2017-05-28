@@ -39,6 +39,9 @@
     "extends": "google"
   },
   "dependencies": {
+    "material-design-icons-iconfont": "3.0.3",
+    "material-design-lite": "1.3.0",
+    "material-icons": "0.1.0",
     "moment": "2.18.1"
   }
 }
