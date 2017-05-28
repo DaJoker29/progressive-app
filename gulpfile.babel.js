@@ -239,7 +239,8 @@ gulp.task('generate-service-worker', ['copy-sw-scripts'], () => {
     // sw-toolbox.js needs to be listed first. It sets up methods used in runtime-caching.js.
     importScripts: [
       'scripts/sw/sw-toolbox.js',
-      'scripts/sw/runtime-caching.js'
+      'scripts/sw/runtime-caching.js',
+      'appCache.js'
     ],
     staticFileGlobs: [
       // Add/remove glob patterns to match your directory setup.

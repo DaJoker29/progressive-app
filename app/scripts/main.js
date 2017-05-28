@@ -75,7 +75,14 @@
 
   // Your custom JavaScript goes here
   const app = {
-    blogCard: document.querySelector('.blogCard')
+    blogCard: document.querySelector('.blogCard'),
+    latestPost: {}
+  };
+
+  app.saveLatestPost = post => {
+    // Save post here
+    app.latestPost = post;
+    localStorage.latestPost = JSON.stringify(post);
   };
 
   app.updateBlogCard = ({title, date, excerpt, link}) => {
@@ -95,8 +102,11 @@
     fetch(url).then(response => {
       if (response.ok) {
         response.json().then(posts => {
-          app.updateBlogCard(posts[0]);
+          const latest = posts[0];
+          app.saveLatestPost(latest);
+          app.updateBlogCard(latest);
         });
+        return;
       }
       throw new Error('Network response was no okay. I repeat. Not okay.');
     }).catch(error => {
@@ -104,5 +114,18 @@
     });
   };
 
+  // If latest Post exists, use it. If not, use dummy data.
+  if (localStorage.latestPost) {
+    app.updateBlogCard(JSON.parse(localStorage.latestPost));
+  } else {
+    app.updateBlogCard({
+      title: {rendered: 'Look at me!'},
+      date: new Date(),
+      excerpt: {rendered: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non accusantium, voluptas accusamus a sint delectus, officiis maiores voluptate mollitia iure, vitae suscipit. Sit dignissimos deleniti, eaque alias aperiam officiis quidem.'},
+      link: '#'
+    });
+  }
+
+  // Fetch the latest post
   app.fetchLatestPost();
 })();
